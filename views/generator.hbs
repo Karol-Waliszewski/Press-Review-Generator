@@ -1,0 +1,17 @@
+<div class="generator">
+    <h2 class="is-size-2 generator__heading">Wygenerowano {{news.length}} wiadomości.</h2>
+    <button class="button" id="copy">Skopiuj do schowka</button>
+    <textarea id="generator" class="textarea textarea--generator" readonly>
+        {{response}}
+    </textarea>
+</div>
+<div class="modal" id="generator-message">
+    <div class="modal-background" id="generator-message-background"></div>
+    <div class="modal-content">
+        <div class="box" id="generator-message-content">
+            Prasówka została skopiowana.
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" id="generator-message-close"></button>
+</div>
+<script src="/generator.js"></script>

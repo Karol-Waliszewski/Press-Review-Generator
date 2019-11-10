@@ -5,6 +5,9 @@ const session = require("express-session");
 const mongoStore = require("connect-mongo")(session);
 const hbs = require("express-handlebars");
 
+// Handlebars helpers
+const helpers = require("./helpers");
+
 // Models
 const Scraper = require("./models/scraper");
 
@@ -43,7 +46,6 @@ app.use(
 );
 
 // Setting up a view engine
-
 app.engine(
   "hbs",
   hbs({
@@ -51,18 +53,13 @@ app.engine(
     defaultView: "main",
     layoutsDir: __dirname + "/views/layouts/",
     partialsDir: __dirname + "/views/partials/",
-    helpers: {
-      for: function(n, block) {
-        var accum = "";
-        for (var i = 1; i <= n; i++) {
-          accum += block.fn(i);
-        }
-        return accum;
-      }
-    }
+    helpers: helpers
   })
 );
 app.set("view engine", "hbs");
+
+// Serving static files
+app.use(express.static("public"));
 
 // Creating scrapers
 var s1 = new Scraper({
@@ -77,10 +74,7 @@ var scraperController = new ScraperController([s1, s2]);
 
 async function manageDatabase() {
   NewsController.saveNews(await scraperController.getNews());
-  NewsController.countNews();
-
-  // TODO: fix cleaner
-  //NewsController.clearNews();
+  NewsController.clearNews();
 }
 manageDatabase();
 setInterval(manageDatabase, 1000 * 60 * 60 * 24);
@@ -91,23 +85,36 @@ app.use(function(req, res, next) {
 });
 
 // Routes
-app.get("/:page?", (req, res) => {
+app.get("/:page?", async (req, res) => {
   let page = req.params.page - 1 || 0;
-  NewsController.loadNews({
+  let news = await NewsController.loadNews({
     skip: page * Options.postsOnPage,
-    limit: Options.postsOnPage,
-    callback: async (err, response) => {
-      let newsQantity = await NewsController.countNews();
-      res.render("home", {
-        news: response,
-        pages: Math.ceil(newsQantity / Options.postsOnPage)
-      });
-    }
+    limit: Options.postsOnPage
   });
+  let newsQantity = await NewsController.countNews();
+  res.render("home", {
+    news,
+    page: page + 1,
+    pages: Math.ceil(newsQantity / Options.postsOnPage)
+  });
+  // res.render("home", {
+  //   news: [
+  //     {
+  //       title: "Title",
+  //       text: "text",
+  //       date: new Date(),
+  //       source: "??",
+  //       category: "swiat",
+  //       sourceURL: "google.pl"
+  //     }
+  //   ],
+  //   pages: Math.ceil(100 / Options.postsOnPage)
+  // });
 });
 
 app.use("/kategoria", require("./routes/category"));
 app.use("/artykul", require("./routes/article"));
+app.use("/generator", require("./routes/generator"));
 
 // Listening to the port
 app.listen(PORT, () => {

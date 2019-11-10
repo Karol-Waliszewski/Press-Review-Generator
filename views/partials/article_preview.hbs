@@ -1,13 +1,11 @@
-{{#article}}
 <article class="article">
     <h2 class="is-size-3 article__heading">{{title}} ({{category}})</h2>
     <span class="article__date">
         {{#formatDate date}}
-        {{this}}
+            {{this}}
         {{/formatDate}}
     </span>
-    <p class="article__text">{{text}}</p>
+    <p class="article__text--cropped">{{text}}</p>
     <a class="article__source" href="{{sourceURL}}">Źródłó: {{source}}</a>
-    <a class="button is-light is-small" href="/">Powrót</a>
+    <a class="button is-light is-small" href="/artykul/{{_id}}">Więcej</a>
 </article>
-{{/article}}

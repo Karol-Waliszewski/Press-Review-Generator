@@ -1,31 +1,53 @@
 const News = require("../models/news");
+const Options = require("../options");
 
 const NewsController = {
-  formatDate(date) {
-    date = new Date(date);
-    return `${
-      date.getDate() < 10 ? "0" + date.getDate() : date.getDate()
-    }-${date.getMonth() + 1}-${date.getFullYear()}`;
-  },
-
-  loadNews({ category, callback, skip, limit }) {
+  async loadNews({ category, skip, limit }) {
     let query = category ? { category } : {};
     skip = skip || 0;
 
+    // Checing if limit is declared
     if (limit) {
-      News.find(query)
+      // Returning specific amount of news
+      return await News.find(query)
         .skip(skip)
         .limit(limit)
-        .exec(callback);
-    } else {
-      News.find(query)
-        .skip(skip)
-        .exec(callback);
+        .sort({ date: -1 });
     }
+    // Returning news skipped by 'skip'
+    return await News.find(query)
+      .skip(skip)
+      .sort({ date: -1 });
   },
 
   async getByID(id) {
+    // Returning News by ID
     return await News.find({ _id: id });
+  },
+
+  async loadRandomNews({ quantity, category }) {
+    // Loading news for specific category
+    let news = await NewsController.loadNews({ category });
+    // Declaring empty arrays
+    let indexes = [];
+    let randomNews = [];
+
+    if (news.length) {
+      // Loop generating indexes based on news length without duplicates
+      while (indexes.length < quantity) {
+        let index = Math.floor(Math.random() * news.length);
+        if (!indexes.includes(index)) {
+          indexes.push(index);
+        }
+      }
+      // Getting news with generated indexes
+      for (let index of indexes) {
+        randomNews.push(news[index]);
+      }
+    }
+
+    // Returning randomly chosed news
+    return randomNews;
   },
 
   saveNews(news) {
@@ -33,7 +55,7 @@ const NewsController = {
       news = [news];
     }
     for (let singleNews of news) {
-      singleNews.date = NewsController.formatDate(singleNews.date);
+      // Creating new News object
       singleNews = new News(singleNews);
       // Checking for duplicates
       News.exists({ title: singleNews.title }).then(exists => {
@@ -47,19 +69,15 @@ const NewsController = {
     }
   },
 
-  async countNews() {
-    let quantity = await News.countDocuments();
-    return quantity;
+  async countNews(category) {
+    if (category) return await News.countDocuments({ category });
+    return await News.countDocuments();
   },
 
   clearNews() {
-    let old = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000);
-    console.log(NewsController.formatDate(old));
-    News.deleteMany({ date: { $lte: NewsController.formatDate(old) } }).exec(
-      () => {
-        console.log("sukces?");
-      }
-    );
+    News.deleteMany({ date: { $lte: Options.oldNews } }).exec(() => {
+      console.log("Deleted news older than expected.");
+    });
   }
 };
 

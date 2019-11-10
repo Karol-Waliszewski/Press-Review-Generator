@@ -1,23 +1,20 @@
 const Axios = require("axios");
 const cheerio = require("cheerio");
 
+const Options = require("../options");
+
 class Scrapper {
-  constructor({ source, pages = 1 }) {
+  constructor({ source }) {
     this.source = source;
-    this.pages = pages;
-    this.categories = {
-      world: "świat",
-      country: "kraj"
-    };
   }
 
   async getNews() {
     switch (this.source) {
       case "prasowki.org":
-        return this.getPrasowkiOrg();
+        return await this.getPrasowkiOrg();
 
       case "prasowkinawos.pl":
-        return this.getPrasowkiNaWos();
+        return await this.getPrasowkiNaWos();
 
       default:
         return [];
@@ -29,8 +26,12 @@ class Scrapper {
     let newsArray = [];
     // Iterate over categories
     for (let category of categories) {
+      let categoryArray = [];
+      let page = 1;
+      let running = true;
+
       // Iterate over pages
-      for (let page = 1; page <= this.pages; page++) {
+      while (running) {
         let response = await Axios.get(
           `https://prasowki.org/category/${category}/page/${page}`
         );
@@ -68,22 +69,29 @@ class Scrapper {
                   let news = {
                     title,
                     text,
-                    date,
+                    date: new Date(date),
                     source: this.source,
                     sourceURL: url,
                     category:
                       category == "polska"
-                        ? this.categories.country
-                        : this.categories.world
+                        ? Options.categories.country
+                        : Options.categories.world
                   };
 
-                  // Pushing news to array
-                  newsArray.push(news);
+                  // Checking if news is not too old
+                  if (news.date >= Options.oldNews) {
+                    // Pushing news to array
+                    categoryArray.push(news);
+                    running = false;
+                  }
                 }
               });
           });
         }
+        page++;
       }
+
+      newsArray.push(...categoryArray);
     }
     return newsArray;
   }
@@ -93,8 +101,11 @@ class Scrapper {
     let newsArray = [];
     // Iterate over categories
     for (let category of categories) {
+      let categoryArray = [];
+      let page = 1;
+      let running = true;
       // Iterate over pages
-      for (let page = 1; page <= this.pages; page++) {
+      while (running) {
         let response = await Axios.get(
           `https://prasowkinawos.pl/${category}/page/${page}`
         );
@@ -132,22 +143,29 @@ class Scrapper {
                   let news = {
                     title,
                     text,
-                    date,
+                    date: new Date(date),
                     source: this.source,
                     sourceURL: url,
                     category:
                       category == "z-kraju"
-                        ? this.categories.country
-                        : this.categories.world
+                        ? Options.categories.country
+                        : Options.categories.world
                   };
 
-                  // Pushing news to array
-                  newsArray.push(news);
+                  // Checking if news is not too old
+                  if (news.date >= Options.oldNews) {
+                    // Pushing news to array
+                    categoryArray.push(news);
+                    running = false;
+                  }
                 }
               });
           });
         }
+        page++;
       }
+
+      newsArray.push(...categoryArray);
     }
     return newsArray;
   }

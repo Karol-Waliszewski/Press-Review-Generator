@@ -1,21 +1,10 @@
-<h1>HOME</h1>
-<a href="/kategoria/swiat">Świat</a>
-<a href="/kategoria/kraj">Kraj</a>
-<ul>
-    {{#for pages}}
-    <li>
-        <a href="/{{this}}">{{this}}</a>
-    </li>
-    {{/for}}
-</ul>
+{{> pagination this}}
+
 <ul>
     {{#news}}
     <li>
-        <h2>{{title}} ({{category}})</h2>
-        <span>{{date}}</span>
-        <p>{{text}}</p>
-        <a href="/artykul/{{_id}}">Więcej</a>
-        <a href="{{sourceURL}}">Źródłó: {{source}}</a>
+        {{> article_preview this}}
     </li>
     {{/news}}
 </ul>
+{{> pagination this}}

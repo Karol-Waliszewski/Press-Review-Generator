@@ -1,0 +1,56 @@
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    {{#if category}}
+    {{#ifEquals 1 page}}
+    <button class="pagination-previous" disabled>Poprzednia</button>
+    {{else}}
+    <a class="pagination-previous" href="/kategoria/{{category}}/{{math page "-" 1}}">Poprzednia</a>
+    {{/ifEquals}}
+    {{else}}
+    {{#ifEquals 1 page}}
+    <button class="pagination-previous" disabled>Poprzednia</button>
+    {{else}}
+    <a class="pagination-previous" href="/{{math page "-" 1}}">Poprzednia</a>
+    {{/ifEquals}}
+    {{/if}}
+    {{#if category}}
+    {{#ifEquals pages page}}
+    <button class="pagination-next" disabled>Następna</button>
+    {{else}}
+    <a class="pagination-next" href="/kategoria/{{category}}/{{math page "+" 1}}">Następna</a>
+    {{/ifEquals}}
+    {{else}}
+    {{#ifEquals pages page}}
+    <button class="pagination-next" disabled>Następna</button>
+    {{else}}
+    <a class="pagination-next" href="/{{math page "+" 1}}">Następna</a>
+    {{/ifEquals}}
+    {{/if}}
+
+    {{#if category}}
+    <ul class="pagination-list">
+        {{#for pages}}
+        <li>
+            {{#ifEquals this ../page}}
+            <a class="pagination-link is-current" aria-label="Goto page {{this}}"
+                href="/kategoria/{{../category}}/{{this}}">{{this}}</a>
+            {{else}}
+            <a class="pagination-link" aria-label="Goto page {{this}}"
+                href="/kategoria/{{../category}}/{{this}}">{{this}}</a>
+            {{/ifEquals}}
+        </li>
+        {{/for}}
+    </ul>
+    {{else}}
+    <ul class="pagination-list">
+        {{#for pages}}
+        <li>
+            {{#ifEquals this ../page}}
+            <a class="pagination-link is-current" aria-label="Goto page {{this}}" href="/{{this}}">{{this}}</a>
+            {{else}}
+            <a class="pagination-link" aria-label="Goto page {{this}}" href="/{{this}}">{{this}}</a>
+            {{/ifEquals}}
+        </li>
+        {{/for}}
+    </ul>
+    {{/if}}
+</nav>

@@ -5,7 +5,7 @@ const News = mongoose.model("News", {
   text: String,
   source: String,
   sourceURL: String,
-  date: String,
+  date: Date,
   category: String
 });
 

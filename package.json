@@ -4,7 +4,7 @@
   "description": "Strona generuje gotowe prasowki na bazie wiadomosci z roznych zrodel",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "Karol Waliszewski",
   "license": "ISC",

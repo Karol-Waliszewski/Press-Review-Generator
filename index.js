@@ -95,19 +95,6 @@ app.get("/:page?", async (req, res) => {
     page: page + 1,
     pages: Math.ceil(newsQantity / Options.postsOnPage)
   });
-  // res.render("home", {
-  //   news: [
-  //     {
-  //       title: "Title",
-  //       text: "text",
-  //       date: new Date(),
-  //       source: "??",
-  //       category: "swiat",
-  //       sourceURL: "google.pl"
-  //     }
-  //   ],
-  //   pages: Math.ceil(100 / Options.postsOnPage)
-  // });
 });
 
 app.use("/kategoria", require("./routes/category"));

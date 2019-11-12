@@ -57,6 +57,12 @@ a {
     width: 100%;
 }
 
+@media screen and (max-width: 1023px){
+    .main {
+        padding: 0 30px;
+    }
+}
+
 .generator {
     flex: 1;
     display: flex;

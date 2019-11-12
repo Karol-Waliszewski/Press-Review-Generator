@@ -63,12 +63,10 @@ app.use(express.static("public"));
 
 // Creating scrapers
 var s1 = new Scraper({
-  source: "prasowki.org",
-  pages: 3
+  source: "prasowki.org"
 });
 var s2 = new Scraper({
-  source: "prasowkinawos.pl",
-  pages: 3
+  source: "prasowkinawos.pl"
 });
 var scraperController = new ScraperController([s1, s2]);
 

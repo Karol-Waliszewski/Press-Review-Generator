@@ -11,12 +11,21 @@ const NewsController = require("../controllers/news");
 // Dynamically generated routes for each category
 for (let category in Options.categories) {
   router.get(`/${Options.categories[category]}/:quantity`, async (req, res) => {
+    let news = await NewsController.loadRandomNews({
+      category: Options.categories[category],
+      quantity: req.params.quantity
+    });
+    let response = "";
+    for (let nw of news) {
+      response += `
+  ${nw.title} (${nw.category})
+  ${nw.text}
+  `;
+    }
     res.render("generator", {
       // Collecting news for specific category
-      news: await NewsController.loadRandomNews({
-        category: Options.categories[category],
-        quantity: req.params.quantity
-      })
+      news,
+      response
     });
   });
 }
@@ -35,8 +44,7 @@ router.get("/:quantity", async (req, res) => {
   }
   let response = "";
   for (let nw of news) {
-    response += 
-`
+    response += `
 ${nw.title} (${nw.category})
 ${nw.text}
 `;

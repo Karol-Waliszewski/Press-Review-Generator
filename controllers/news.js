@@ -28,6 +28,7 @@ const NewsController = {
   async loadRandomNews({ quantity, category }) {
     // Loading news for specific category
     let news = await NewsController.loadNews({ category });
+  
     // Declaring empty arrays
     let indexes = [];
     let randomNews = [];
@@ -45,6 +46,8 @@ const NewsController = {
         randomNews.push(news[index]);
       }
     }
+
+    //console.log(randomNews);
 
     // Returning randomly chosed news
     return randomNews;

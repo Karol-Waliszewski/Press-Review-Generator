@@ -2,6 +2,23 @@ a {
     color: #00c4a7;
 }
 
+@media screen and (max-width: 1023px) {
+    .navbar-menu {
+
+        padding: 0;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition: 300ms;
+    }
+
+    .navbar-menu.is-active {
+
+        padding: 0.5rem 0;
+        max-height: 200px;
+    }
+}
+
 .article {
     margin: 20px 0;
 }
@@ -57,7 +74,7 @@ a {
     width: 100%;
 }
 
-@media screen and (max-width: 1023px){
+@media screen and (max-width: 1023px) {
     .main {
         padding: 0 30px;
     }
@@ -83,4 +100,18 @@ a {
 
 .footer {
     padding: 2rem;
+}
+
+.configurator {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.configurator__container {}
+
+.modal-content {
+    width: auto;
+    max-width: 98%;
 }

@@ -83,6 +83,10 @@ app.use(function(req, res, next) {
 });
 
 // Routes
+app.get("/konfigurator", (req, res) => {
+  res.render("configuration", {});
+});
+
 app.get("/:page?", async (req, res) => {
   let page = req.params.page - 1 || 0;
   let news = await NewsController.loadNews({

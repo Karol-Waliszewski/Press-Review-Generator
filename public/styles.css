@@ -2,32 +2,12 @@ a {
     color: #00c4a7;
 }
 
-@media screen and (max-width: 1023px) {
-    .navbar {
-        position: sticky;
-        top: 0;
-    }
-
-    .navbar-menu {
-        padding: 0;
-        display: block;
-        max-height: 0;
-        overflow: hidden;
-        transition: 300ms;
-    }
-
-    .navbar-menu.is-active {
-        padding: 0.5rem 0;
-        max-height: 200px;
-    }
-
-    #copy {
-        display: none;
-    }
-}
-
 .article {
     margin: 20px 0;
+}
+
+.article__heading {
+    font-size: 2rem;
 }
 
 .article__date {
@@ -84,6 +64,32 @@ a {
 @media screen and (max-width: 1023px) {
     .main {
         padding: 0 30px;
+    }
+
+    .navbar {
+        position: sticky;
+        top: 0;
+    }
+
+    .navbar-menu {
+        padding: 0;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition: 300ms;
+    }
+
+    .navbar-menu.is-active {
+        padding: 0.5rem 0;
+        max-height: 200px;
+    }
+
+    #copy {
+        display: none;
+    }
+
+    .article__heading {
+        font-size: 1.35rem;
     }
 }
 

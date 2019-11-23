@@ -4,7 +4,6 @@ a {
 
 @media screen and (max-width: 1023px) {
     .navbar-menu {
-
         padding: 0;
         display: block;
         max-height: 0;
@@ -13,9 +12,12 @@ a {
     }
 
     .navbar-menu.is-active {
-
         padding: 0.5rem 0;
         max-height: 200px;
+    }
+
+    #copy {
+        display: none;
     }
 }
 

@@ -3,6 +3,11 @@ a {
 }
 
 @media screen and (max-width: 1023px) {
+    .navbar {
+        position: sticky;
+        top: 0;
+    }
+
     .navbar-menu {
         padding: 0;
         display: block;

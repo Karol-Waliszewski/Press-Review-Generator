@@ -16,7 +16,8 @@
             <div class="field">
                 <label class="label" for="quantity" title="Ilość wiadomości na daną kategorię">Ilość wiadomości</label>
                 <div class="control">
-                    <input class="input" id="quantity" type="number" placeholder="5" value="5" min="1">
+                    <input class="input" id="quantity" type="number" placeholder="5" value="5" min="1"
+                        max="{{limits.both}}">
                 </div>
                 <p class="help">Ilość wiadomości liczona jest na daną kategorię</p>
             </div>
@@ -36,4 +37,11 @@
         </div>
     </div>
 </div>
+<script>
+    const limits = {
+        both: {{ limits.both }},
+        country: {{ limits.country }},
+        world: {{ limits.world }}
+    };
+</script>
 <script src="/configurator.js"></script>

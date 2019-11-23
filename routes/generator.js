@@ -56,8 +56,5 @@ ${nw.text}
   });
 });
 
-router.get("/", async (req, res) => {
-  res.render("configurator");
-});
 
 module.exports = router;

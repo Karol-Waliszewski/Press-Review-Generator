@@ -83,8 +83,24 @@ app.use(function(req, res, next) {
 });
 
 // Routes
-app.get("/konfigurator", (req, res) => {
-  res.render("configuration", {});
+
+app.use("/kategoria", require("./routes/category"));
+app.use("/artykul", require("./routes/article"));
+app.use("/generator", require("./routes/generator"));
+
+app.get("/konfigurator", async (req, res) => {
+  let limits = {
+    both: await NewsController.countNews()
+  };
+  for (let category in Options.categories) {
+    limits[category] = await NewsController.countNews(
+      Options.categories[category]
+    );
+  }
+
+  res.render("configuration", {
+    limits
+  });
 });
 
 app.get("/:page?", async (req, res) => {
@@ -100,10 +116,6 @@ app.get("/:page?", async (req, res) => {
     pages: Math.ceil(newsQantity / Options.postsOnPage)
   });
 });
-
-app.use("/kategoria", require("./routes/category"));
-app.use("/artykul", require("./routes/article"));
-app.use("/generator", require("./routes/generator"));
 
 // Listening to the port
 app.listen(PORT, () => {

@@ -9,15 +9,20 @@ class Scrapper {
   }
 
   async getNews() {
-    switch (this.source) {
-      case "prasowki.org":
-        return await this.getPrasowkiOrg();
+    try {
+      switch (this.source) {
+        case "prasowki.org":
+          return await this.getPrasowkiOrg();
 
-      case "prasowkinawos.pl":
-        return await this.getPrasowkiNaWos();
+        case "prasowkinawos.pl":
+          return await this.getPrasowkiNaWos();
 
-      default:
-        return [];
+        default:
+          return [];
+      }
+    } catch (error) {
+      console.error(error);
+      return [];
     }
   }
 

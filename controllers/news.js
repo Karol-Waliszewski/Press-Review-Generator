@@ -28,7 +28,12 @@ const NewsController = {
   async loadRandomNews({ quantity, category }) {
     // Loading news for specific category
     let news = await NewsController.loadNews({ category });
-  
+
+    // If quantity is higher than news.length, return all news
+    if (quantity >= news.length) {
+      return news;
+    }
+
     // Declaring empty arrays
     let indexes = [];
     let randomNews = [];

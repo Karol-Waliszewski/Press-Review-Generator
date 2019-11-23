@@ -49,4 +49,6 @@ $quantity.addEventListener("change", function() {
 });
 
 // Init
+updateLimit();
+validateQuantity();
 updateLink();

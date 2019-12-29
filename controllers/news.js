@@ -58,7 +58,7 @@ const NewsController = {
     return randomNews;
   },
 
-  saveNews(news) {
+ async saveNews(news) {
     if (!Array.isArray(news)) {
       news = [news];
     }
@@ -66,10 +66,10 @@ const NewsController = {
       // Creating new News object
       singleNews = new News(singleNews);
       // Checking for duplicates
-      News.exists({ title: singleNews.title }).then(exists => {
+      await News.exists({ title: singleNews.title }).then(async exists => {
         if (exists == false) {
           // Saving news to database
-          singleNews.save().then(() => {
+          await singleNews.save().then(() => {
             console.log("News has been saved to the database");
           });
         }
@@ -83,7 +83,7 @@ const NewsController = {
   },
 
   clearNews() {
-    News.deleteMany({ date: { $lte: Options.oldNews } }).exec(() => {
+    News.deleteMany({ date: { $lte: Options.oldNews.valueOf() } }).exec(() => {
       console.log("Deleted news older than expected.");
     });
   }

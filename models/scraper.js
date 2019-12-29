@@ -34,12 +34,12 @@ class Scrapper {
       let categoryArray = [];
       let page = 1;
       let running = true;
-
       // Iterate over pages
       while (running) {
         let response = await Axios.get(
           `https://prasowki.org/category/${category}/page/${page}`
         );
+
         // If request is finished successfully
         if (response.status == 200) {
           // Loading HTML
@@ -51,6 +51,7 @@ class Scrapper {
               .find(".cb-post-title a")
               .each(async (i, link) => {
                 let url = $(link).attr("href");
+
                 // If subrequest is finished successfully
                 response = await Axios.get(url);
                 if (response.status == 200) {

@@ -1,4 +1,5 @@
 // Modules
+const http = require("http");
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -71,10 +72,12 @@ var s2 = new Scraper({
 var scraperController = new ScraperController([s1, s2]);
 
 async function manageDatabase() {
-  NewsController.saveNews(await scraperController.getNews());
+  await NewsController.saveNews(await scraperController.getNews());
   NewsController.clearNews();
 }
 manageDatabase();
+
+// Manages database every hour
 setInterval(manageDatabase, 1000 * 60 * 60 * 24);
 
 // Middlewares

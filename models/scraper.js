@@ -83,22 +83,27 @@ class Scrapper {
                         ? Options.categories.country
                         : Options.categories.world
                   };
-
+                  //console.log(news);
                   // Checking if news is not too old
                   if (news.date >= Options.oldNews) {
                     // Pushing news to array
                     categoryArray.push(news);
+                  } else if (running) {
+                    console.log("News is too old:");
+                    console.log(news.date);
                     running = false;
                   }
+                } else {
+                  running = false;
                 }
               });
           });
         }
         page++;
       }
-
       newsArray.push(...categoryArray);
     }
+    console.log("Returning news.");
     return newsArray;
   }
 
@@ -159,9 +164,17 @@ class Scrapper {
                   };
 
                   // Checking if news is not too old
+                  // if (news.date >= Options.oldNews) {
+                  //   // Pushing news to array
+                  //   categoryArray.push(news);
+                  //   running = false;
+                  // }
                   if (news.date >= Options.oldNews) {
                     // Pushing news to array
                     categoryArray.push(news);
+                  } else if (running) {
+                    console.log("News is too old:");
+                    console.log(news.date);
                     running = false;
                   }
                 }
@@ -173,6 +186,7 @@ class Scrapper {
 
       newsArray.push(...categoryArray);
     }
+    console.log("Returning news.");
     return newsArray;
   }
 }

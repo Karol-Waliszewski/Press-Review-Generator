@@ -58,7 +58,7 @@ const NewsController = {
     return randomNews;
   },
 
- async saveNews(news) {
+  async saveNews(news) {
     if (!Array.isArray(news)) {
       news = [news];
     }

@@ -128,3 +128,7 @@ a {
     width: auto;
     max-width: 98%;
 }
+
+.mt {
+    margin-top: 1rem;
+}

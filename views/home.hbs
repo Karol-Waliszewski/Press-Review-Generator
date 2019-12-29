@@ -1,5 +1,9 @@
+{{#ifEquals news.length 0}}
+<div class="notification is-danger mt">
+  Aktualnie nie ma dostępnych żadnych prasówek. Proszę sprawdzić później.
+</div>
+{{else}}
 {{> pagination this}}
-
 <ul>
     {{#news}}
     <li>
@@ -8,3 +12,4 @@
     {{/news}}
 </ul>
 {{> pagination this}}
+{{/ifEquals}}
